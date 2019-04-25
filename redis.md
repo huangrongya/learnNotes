@@ -79,6 +79,17 @@ save|redis数据保存到磁盘上，这个是RDB的时候用的|save 900 1<br/>
 ```appendonly```|是否开启AOF|no
 ```appendfilename```|AOF文件名称|appendonly.aof
 ```appendfsync```|操作系统实际写数据到磁盘的频率：<br/>```always```，每次有写操作都进行同步，慢，但是安全<br/>```everysec```，对写操作进行累积，每秒同步一次，是一种折中方案<br/>```no```，当操作系统flush缓存的时候同步，性能更好但是会有数据丢失的风险|```everysec```
-```no-appendfsync-on-rewrite```|
-
+```no-appendfsync-on-rewrite```|aof持久化机制有一个致命的问题，随着时间推移，aof文件会膨胀，当server重启时严重影响数据库还原时间，因此系统要定期重写aof文件。<br/>重写aof文件的机制为```bgrewriteaof```，即在一个子进程中重写而不阻塞主进程对其他命令的处理，单这个依然有问题。<br/>```bgrewriteaof```和主进程写aof，都会操作磁盘，而```bgrewriteaof```往往涉及大量磁盘操作，这样就会让主进程写aof文件阻塞。<br/>针对上述问题，可以使用```no-appendfsnyc-on-rewrite```参数做一个选择：<br/>no，最安全，不丢失数据，但是需要忍受阻塞<br/>yes，数据写入缓冲区，不造成阻塞，但是如果此时redis挂掉就会丢失数据，在Linux操作系统默认设置下，最坏场景下会丢失30秒数据|no
+```auto-aof-rewiter-percentage```|本次aof文件超过上次aof文件该值的百分比时，才会触发rewrite|100
+```auto-rewite-min-size```|aof文件最小值，只有达到这个值才会触发rewrite|64mb
+```aof-load-truncated```|redis在以aof方式恢复数据时，对最后一条可能出现问题的指令的处理方式：<br/>yes，log并继续<br/>no，直接恢复失败|yes
+```slowlog-log-slower-than```|redis查询的最低条件，单位微秒，即查询时间大于这个值得会被记录|10000
+```slowlog-max-len```|redis存储的慢查询最大条数，超过该值后会将最早的slowlog剔除|128
+```lua-time-limit```|一个lua脚本执行的最大时间，单位为ms|5000
+```cluster-enabled```|正常来说redis实例是无法成为集群的一部分的，只有以集群方式启动的节点才可以。为了让redis以集群方式启动，就需要此参数。|关闭
+```cluster-config-file```|每个集群节点应该有自己的配置文件，这个文件是不应该手动修改的，它只能被redis节点创建且更新，每个redis集群节点需要不同的集群配置文件|关闭,nodes-6379.cof
+```cluster-node-timeout```|集群中一个节点向其它节点发送ping命令时，必须收到回执的毫秒数|关闭，15000
+```cluster-slave-validity-factor```|如果该项设置为0，不管slave和master节点间失联多久都会一直尝试failover。比如```timeout```为5，该值为10，那么master与slave之间失联50秒，slave不回去failover|关闭，10
+```cluster-migration-barrier```|当一个master拥有多少个好的slave时就要割让一个slave出来。例如设置为2，表示当一个master拥有2个可用的slave时，它的一个slave会尝试迁移|关闭，1
+```cluster-require-full-coverage```|有节点宕机导致16384个slot全部被覆盖，整个集群是否停止服务，之歌之异地昂要改为no|关闭，yes
 
