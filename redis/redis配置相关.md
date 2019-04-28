@@ -91,5 +91,5 @@ save|redis数据保存到磁盘上，这个是RDB的时候用的|save 900 1<br/>
 ```cluster-node-timeout```|集群中一个节点向其它节点发送ping命令时，必须收到回执的毫秒数|关闭，15000
 ```cluster-slave-validity-factor```|如果该项设置为0，不管slave和master节点间失联多久都会一直尝试failover。比如```timeout```为5，该值为10，那么master与slave之间失联50秒，slave不回去failover|关闭，10
 ```cluster-migration-barrier```|当一个master拥有多少个好的slave时就要割让一个slave出来。例如设置为2，表示当一个master拥有2个可用的slave时，它的一个slave会尝试迁移|关闭，1
-```cluster-require-full-coverage```|有节点宕机导致16384个slot全部被覆盖，整个集群是否停止服务，之歌之异地昂要改为no|关闭，yes
+```cluster-require-full-coverage```|有节点宕机导致16384个slot全部被覆盖，整个集群是否停止服务，这个一定要要改为no|关闭，yes
 

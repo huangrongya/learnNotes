@@ -27,3 +27,20 @@
 ```HMGET```|返回哈希表key中，一个或多个给定域的值<br/>如果给定的域不存在，那么返回一个nil值|```HMGET key field [field ...]```
 ```HMSET```|同时将多个field-value对设置到哈希表key中<br/>会覆盖哈希表中已存在的域<br/>key不存在，那么一个空哈希表会被创建并执行HMSET操作|```HMSET key field value [field value ...]```
 ```HVALS```|返回哈希表key中所有的域和值|```HVALS key```
+
+### List数据相关操作
+命令|描述|用法
+```LPUSH```|将一个或多个value插入到列表key的表头<br/>如果有多个value，那么各个value值按从左到右的顺序依次插入表头<br/> key不存在，，一个空列表会被创建并执行LPUSH操作<br/>key存在但不是列表类型，返回错误|```LPUSH key value [value ...]```
+```LPUSHX```|将value插入到key的表头，当且仅当key存在且为一个列表<br/>key不存在时，LPUSHX命令什么都不做|```LPUSHX key value```
+```LPOP```|移除并返回列表key的头元素|```LPOP key```
+```LRANGE```|返回列表中指定区间内的元素，区间以偏移量start和stop指定<br/>start和stop都以0为底<br/>可使用负数下标，-1表示最后一个元素，-2表示倒数第二个元素……以此类推<br/>start 大于列表最大小标，返回空列表<br/>stop大于列表最大下标，stop=列表最大下标|```LRANGE key start stop```
+```LREM```|根据count的值，移除列表中与value相等的元素<br/>count>0，表示从头到尾搜索，移除与value相等的元素，数量为count<br/>count<0，表示从尾到头搜索，移除与value相等的元素，数量为count<br/>count=0，表示移除表中所有与value相等的元素|```LREM key count value```
+```LSET```|将列表key下标为index的元素值设为value<br/>index参数超出范围，或对一个空列表进行LSET时，返回错误|```LSET key index value```
+```LINDEX```|返回列表key中，下标为index的元素|```LINDEX key index```
+```LINSERT```|将value插入列表key中，位于pivot前面或者后面<br/>pivot不存在与列表key时，不执行任何操作<br/>key不存在，不执行任何操作|```LINSERT key BEFORE|AFTER pivot value```
+```LLEN```|返回列表key的长度<br/>列表不存在，返回0|```LLEN key```
+```LTRIM```|对一个列表进行修剪，让列表只返回指定区间内的元素|```LTRIM key start stop```
+```RPOP```|移除并返回列表key的尾元素|```RPOP key```
+```RPOPLPUSH```|在一个原子事件内，执行两个动作：<br/>将列表source中最后一个元素弹出并返回给客户端<br/>将source弹出的元素插入到列表destination,作为destination列表的头元素|```RPOPLPUSH source destination```
+```RPUSH```|将一个或多个value插入到列表key的表尾|```RPUSH key value [value ...]```
+```RPUSHX```|将value插入到列表key的表尾，当且仅当key存在并且是一个列表<br/>key不存在，RPUSHX什么都不做|```RPUSHX key value```
