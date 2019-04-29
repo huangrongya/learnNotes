@@ -44,3 +44,19 @@
 ```RPOPLPUSH```|在一个原子事件内，执行两个动作：<br/>将列表source中最后一个元素弹出并返回给客户端<br/>将source弹出的元素插入到列表destination,作为destination列表的头元素|```RPOPLPUSH source destination```
 ```RPUSH```|将一个或多个value插入到列表key的表尾|```RPUSH key value [value ...]```
 ```RPUSHX```|将value插入到列表key的表尾，当且仅当key存在并且是一个列表<br/>key不存在，RPUSHX什么都不做|```RPUSHX key value```
+
+###Set数据结构相关操作
+```SADD```|将一个或多个member元素加入到key中，已存在在集合的member将被忽略<br/>假如key不存在，则只创建一个只包含member元素做成员的集合<br/>当key不是集合类型时，将返回错误|```SADD key number [member ...] ```
+```SCARD```|返回key对应的集合中的元素数量|```SCARD key```
+```SDIFF```|返回一个集合的全部成员，该集合是第一个key对应的集合和后面key对应的集合的差集|```SDIFF key [key ...]```
+```SDIFFSTORE```|和SDIFF类似，但结果保存到destination集合而不是简单返回结果集<br/>destination已存在，则覆盖|```SDIFFSTORE destionation key [key ...] ```
+```SINTER```|返回一个集合的全部成员，该集合是所有给定集合的交集<br/>不存在的key被视为空集|```SINTER key [key ...] ```
+```SINTERSTORE```|和SINTER类似，但结果保存到destination集合而不是简单返回结果集<br/>如果destination已存在，则覆盖<br/>destination可以是key本身|```SINTERSTORE destination key [key ...] ```
+```SISMEMBER```|判断member元素是否key的成员，0表示不是，1表示是|```SISMEMBER key member ```
+```SMEMBERS```|返回集合key中的所有成员，不存在的key被视为空集|```SMEMBERS key```
+```SMOVE```|原子性地将member元素从source集合移动到destination集合<br/>source集合中不包含member元素，SMOVE命令不执行任何操作，仅返回0<br/>destination中已包含member元素，SMOVE命令指示简单做source集合的member元素移除|```SMOVE source desination member```
+```SPOP```|移除并返回集合中的一个随机元素，如果count不指定那么随机返回一个随机元素<br/>count为正数且小于集合元素数量，那么返回一个count个元素的数组且数组中的元素各不相同<br/>count为正数且大于等于集合元素数量，那么返回整个集合<br/>count为负数那么命令返回一个数组，数组中的元素可能重复多次，数量为count的绝对值|```SPOP key [count]```
+```SRANDMEMBER```|如果count不指定，那么返回集合中的一个随机元素<br/>count同上|```SRANDMEMBER key [count]```
+```SREM```|移除集合key中的一个或多个member元素，不存在的member将被忽略|```SREM key member [member ...]```
+```SUNION```|返回一个集合的全部成员，该集合是所有给定集合的并集<br/>不存在的key被视为空集|```SUNION key [key ...]```
+```SUNIONSTORE```|类似SUNION，但结果保存到destination集合而不是简单返回结果集<br/>destination已存在，覆盖旧值<br/>destination可以是key本身|```SUNIONSTORE destination key [key...]```
