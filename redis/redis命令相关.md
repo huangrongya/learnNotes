@@ -60,3 +60,17 @@
 ```SREM```|移除集合key中的一个或多个member元素，不存在的member将被忽略|```SREM key member [member ...]```
 ```SUNION```|返回一个集合的全部成员，该集合是所有给定集合的并集<br/>不存在的key被视为空集|```SUNION key [key ...]```
 ```SUNIONSTORE```|类似SUNION，但结果保存到destination集合而不是简单返回结果集<br/>destination已存在，覆盖旧值<br/>destination可以是key本身|```SUNIONSTORE destination key [key...]```
+
+###SortedSet数据结构相关操作
+SortedSet, 顾名思义，即有序的Set
+命令|描述|用法
+---|---|---
+```ZADD```|将一个或多个member元素及其score值加入有序集key中<br/>如果member已经是有序集的成员，那么更新member对应的score并重新插入member保证member在正确的位置上<br/>score可以使整数值或双精度的浮点数|```ZADD key score member [[score member] [score member] ...]```
+```ZCARD```|返回有序集key的元素个数|```ZCARD key```
+```ZCOUNT```|返回有序集key中，score值>=min且<=max的成员的数量|```ZCOUNT key min max```
+```ZRANGE```|返回有序集key中指定区间内的成员，成员位置按score从小到大排序<br/>具有相同score值得成员按字典序排列<br/>需要成员按score从大到小排列，使用```ZREVRANGE```命令<br/>下标参数start和stop都以0为底，也可以用负数，-1表示最后一个成员，-2表示倒数第二个成员<br/>可通过```WITHSCORES```选项让成员和它的score值一并返回|```ZRANGE key start stop [WITHSCORES] ```
+```ZRANK```|返回有序集key中成员member的排名，有序集按score值从小到大排列<br/>排名以0为底，即score最小的成员排名为0<br/>```ZREVRANK```命令可将成员按score值从大到小排名|```ZRANK key number```
+```ZREM```|移除有序集key中的一个或多个成员，不存在的成员将被忽略<br/>当key存在但不是有序集时，返回错误|```ZREM key member [member ...] ```
+```ZREMRANGEBYRANK```|移除有序集key中指定排名区间内的所有成员|```ZREMRANGEBYRANK key start stop```
+```ZREMRANGEBYSCORE```|移除有序集key中，所有score值在>=min和<=max的成员|```ZREMRANGEBYSCORE key min max```
+
