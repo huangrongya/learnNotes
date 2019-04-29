@@ -74,3 +74,19 @@ SortedSet, 顾名思义，即有序的Set
 ```ZREMRANGEBYRANK```|移除有序集key中指定排名区间内的所有成员|```ZREMRANGEBYRANK key start stop```
 ```ZREMRANGEBYSCORE```|移除有序集key中，所有score值在>=min和<=max的成员|```ZREMRANGEBYSCORE key min max```
 
+###redis key相关操作
+命令|描述|用法
+---|---|---
+```DEL```|删除给定的一个或多个key<br/>不存在的key将被忽略|```DEL key [key ...]```
+```EXISTS```|检查给定key是否存在|```EXISTS key```
+```EXPIRE```|为给定key设置生存时间，key过期时它会被自动删除<br/>对一个已经指定生存时间的key设置执行时间，新的值会替代旧的值|```EXPIRE key seconds```
+```EXPIREAT```|同```EXPIRE```,但此命令制定的是UNIX时间戳，单位为秒|```EXPIRE key timestamp```
+```KEYS```|查找所有给定模式pattern的key<br/>keys * 匹配所有<br/>keys h?llo 匹配hello、halllo等<br/>keys h*llo 匹配hllo、heeeeello等<br/>keys h[ae]llo 匹配hallo和hello|```KEYS pattern```
+```MIGRATE```|原子性地将key从当前实例传送到目标实例指定的<br/>原数据库key删除，新数据库key增加<br/>阻塞进行迁移的两个实例，直到迁移成功、迁移失败、等待超时三个之一发生|```MIGRATE host port key destination-db timeout [COPY] [REPLACE] ```
+```MOVE```|将当前数据库的key移动到给定的数据库的db中<br/>执行成功的条件为当前数据库有key，给定数据库没有key|```MOVE key db```
+```PERSIST```|移除给定key的生存时间，将key变为持久的|```PERSIST key```
+```RANDOMKEY```|从当前数据库随机返回且不删除一个key|```RANDOMKEY```
+```RENAME```|将key改名为newkey<br/>当key和newkey相同或者key不存在，报错<br/>newkey已存在，RENAME将覆盖旧值|```RENAME key newkey```
+```TTL```|以秒为单位，返回给定的key剩余生存时间|```TTL key```
+```PTTL```|以毫秒为单位，返回给定的key剩余生存时间|```PTTL key```
+```TYPE```|返回key锁存储的值得类型|```TYPE key```
