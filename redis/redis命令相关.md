@@ -90,3 +90,24 @@ SortedSet, 顾名思义，即有序的Set
 ```TTL```|以秒为单位，返回给定的key剩余生存时间|```TTL key```
 ```PTTL```|以毫秒为单位，返回给定的key剩余生存时间|```PTTL key```
 ```TYPE```|返回key锁存储的值得类型|```TYPE key```
+
+###系统相关命令
+命令|描述|用法
+---|---|---
+```BGREWRITEAOF```|手动触发AOF重写操作，用于减小AOF文件体积|```BGREWRITEAOF```
+```BGSAVE```|后台异步保存当前数据库的数据到磁盘|```BGSAVE```
+```CLIENT KILL```|关闭地址为ip:port的客户端<br/>犹豫redis为单线程设计，因此当当前命令执行完之后才会关闭客户端|```CLIENT KILL ip:port```
+```CLIENT LIST```|以可读的格式，返回所有连接到服务器的客户端信息和统计数据|```CLIENT LIST```
+```CONFIG GET```|取得运行中的redis服务器配置参数<br/>支持*|```CONFIG GET parameter```
+```CONFIG RESETSTAT```|重置INFO命令中的某些统计数据，例如Keyspace hits、Keyspace misses等|```CONFIG RESETSTAT```
+```CONFIG REWRITE```|对启动Redis时指定的redis.conf文件进行改写|```CONFIG REWRITE```
+```CONFIG SET```|动态调整Redis服务器的配置而无需重启,修改后的配置立即生效|```CONFIG SET parameter value```
+```SELECT```|切换到指定数据库，数据库索引index用数字指定，以0作为起始索引值|```SELECT index```
+```DBSIZE```|返回当前数据库的Key的数量|```返回当前数据库的Key的数量```
+```DEBUG OBJECT```|这是一个调试命令，不应当被客户端使用<br/>key存在时返回有关信息，key不存在时返回错误|```DEBUG OBJECT key```
+```FLUSHALL```|清空整个Redis服务器的数据|```FLUSHALL```
+```FLUSHDB```|清空当前数据库中的所有数据|```FLUSHDB```
+```INFO```|以一种易于解释且易于阅读的格式，返回Redis服务器的各种信息和统计数值<br/>通过给定可选参数section，可以让命令只返回某一部分信息|```INFO [section]```
+```LASTSAVE```|返回最近一次Redis成功将数据保存到磁盘上的时间，以UNIX时间戳格式表示|```LASTSAVE```
+```MONITOR```|实时打印出Redis服务器接收到的命令，调试用|```MONITOR```
+```SHUTDOWN```|停止所有客户端<br/>如果至少有一个保存点在等待，执行SAVE命令<br/>如果AOF选项被打开，更新AOF文件<br/>关闭Redis服务器|```SHUTDOWN [SAVE|NOSAVE]```
