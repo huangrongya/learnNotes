@@ -111,3 +111,10 @@ SortedSet, 顾名思义，即有序的Set
 ```LASTSAVE```|返回最近一次Redis成功将数据保存到磁盘上的时间，以UNIX时间戳格式表示|```LASTSAVE```
 ```MONITOR```|实时打印出Redis服务器接收到的命令，调试用|```MONITOR```
 ```SHUTDOWN```|停止所有客户端<br/>如果至少有一个保存点在等待，执行SAVE命令<br/>如果AOF选项被打开，更新AOF文件<br/>关闭Redis服务器|```SHUTDOWN [SAVE|NOSAVE]```
+
+###Redis的事务
+redis的事务是由DISCARD、EXEC、MULTI、UNWATCH、WATCH五个命令来保证的：
+命令|描述|用法
+```DISCARD```|取消事务<br/>如果正在使用WATCH命令监视某个/某些key，那么取消所有监视，等同于执行```UNWATCH```|```DISCARD```
+```EXEC```|执行所有事务块内的命令<br/>如果某个/某些key正处于WATCH命令监视之下且事务块中有和这个/这些key相关的命令，那么EXEC命令只在这个/这些key没有被其他命令改动的情况下才会执行并生效，否则该事务被打断|```EXEC```
+```MULTI```|标记一个事务块的开始<br/>事务块内的多条命令会按照先后顺序被放入一个队列中，最后由EXEC命令原子性地执行|```MULTI```
